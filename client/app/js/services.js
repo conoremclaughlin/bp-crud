@@ -82,11 +82,13 @@ angular.module('app.services', ['ngResource'])
             var that = this;
             id = id || this.model.id;
 
-            $http.put(this.apiUrl(id), this.model, function() {
-                $location.path(that.url);
-            }, function(error) {
-                alert('We cannot update your profile at this time.  Please try again later.');
-            });
+            $http.put(this.apiUrl(id), this.model)
+                .success(function() {
+                    $location.path(that.url);
+                })
+                .error(function(error) {
+                    alert('We cannot update your profile at this time.  Please try again later.');
+                });
         };
 
         return Model;
