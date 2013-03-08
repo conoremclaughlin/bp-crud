@@ -2,7 +2,7 @@
   <div class="row headerfix">
     <div class="span12">
       <form name="userForm" class="form-horizontal">
-        <h3>Edit {{user.model.username}}'s Profile</h3>
+        <h3>{{user.model.username}}'s Profile</h3>
         <fieldset>
           <div class="control-group">
             <input name="username" type="text" value="" placeholder="username" ng-model="user.model.username" required>
@@ -19,7 +19,7 @@
             <input name="lastName" type="text" value="last name" placeholder="last name" ng-model="user.model.lastName">
           </div>
           <div class="control-group">
-            <input type="submit" class="btn btn-primary" ng-click="user.update(id)" >
+            <input class="btn btn-primary" type="submit" ng-click="user.update(id)" value="Edit">
             <button class="btn btn-danger" ng-click="user.del(id)">Delete</button>
           </div>
         </fieldset>

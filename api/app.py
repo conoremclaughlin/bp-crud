@@ -12,12 +12,15 @@ from flask.ext.mongorest.authentication import AuthenticationBase
 
 app = Flask(__name__, static_url_path='', static_folder='client/app')
 
+# mongodb://<user>:<password>@dharma.mongohq.com:10004/bp-crud
+
 app.config.update(
-    TESTING = True,
     MONGODB_SETTINGS = {
-        'HOST': 'localhost',
-        'PORT': 27017,
-        'DB': 'mongorest_example_app',
+        'username': 'her-api-2',
+        'password': '0AZIOU0',
+        'HOST': 'dharma.mongohq.com',
+        'PORT': 10004,
+        'DB': 'bp-crud',
         'TZ_AWARE': True,
     },
 )
@@ -25,10 +28,7 @@ app.config.update(
 db = MongoEngine(app)
 api = MongoRest(app)
 
-
 '''
-Schemas
-    
 User
     
     objectId
@@ -36,14 +36,6 @@ User
     email
     firstName
     lastName
-
-Transaction
-    
-    objectId
-    amount
-    payer
-    ower
-    message
 '''
 
 class User(db.Document):
@@ -55,27 +47,36 @@ class User(db.Document):
 class UserResource(Resource):
     document = User
 
+@api.register(name='users', url='/api/users/')
+class UserView(ResourceView):
+    resource = UserResource
+    methods = [Create, Update, Fetch, List, Delete]
+
+'''
+Transaction
+    
+    objectId
+    amount
+    payer
+    ower
+    message
+'''
+
 class Transaction(db.Document):
     amount = db.FloatField(required=True)
     payer = db.ReferenceField(User, required=True)
     ower = db.ReferenceField(User, required=True)
     message = db.StringField(max_length=255)
 
-@api.register(name='users', url='/api/users/')
-class UserView(ResourceView):
-    resource = UserResource
-    methods = [Create, Update, Fetch, List, Delete]
-
 class TransactionResource(Resource):
     document = Transaction
-    filters = {
-        'email': [ops.Exact, ops.Startswith, ops.In],
-    }
 
 @api.register(name='transactions', url='/api/transactions/')
 class TransactionView(ResourceView):
     resource = TransactionResource
     methods = [Create, Update, Fetch, List, Delete]
+
+''' Routes '''
 
 @app.route('/')
 def index():
@@ -83,6 +84,8 @@ def index():
     with app.test_request_context():
     '''
     return redirect(url_for('static', filename='index.html'))
+
+''' RUN '''
 
 if __name__ == "__main__":
     port = int(os.environ.get('PORT', 8000))

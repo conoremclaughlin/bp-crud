@@ -83,7 +83,6 @@ angular.module('app.services', ['ngResource'])
             id = id || this.model.id;
 
             $http.put(this.apiUrl(id), this.model, function() {
-                // TODO: alert it's been updated.
                 $location.path(that.url);
             }, function(error) {
                 alert('We cannot update your profile at this time.  Please try again later.');
