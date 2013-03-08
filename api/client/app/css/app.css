@@ -1,84 +1,82 @@
 /* app css stylesheet */
 
+/* color swatch
+ *
+ * accents:
+ *  greenish-blue - rgb(40, 146, 167);
+ *  light orange - rgb(221, 155, 36);
+ * primaries:
+ *  dark gray - rgb(66, 65, 63);
+ *   darken up the text: dark gray - rgb(46, 45, 43);
+ *   lightened text: almost white - rgb(230, 230, 230);
+ *  light gray - rgb(220, 220, 220);
+ */
+ 
 body {
-  padding-top: 20px;
+  background: none repeat scroll 0% 0% rgb(66, 65, 63);
+  color: rgb(230, 230, 230);
 }
 
-.phones {
-  list-style: none;
+a,
+a:hover {
+  color: rgb(40, 146, 167);
 }
 
-.thumb {
-  float: left;
-  margin: -1em 1em 1.5em 0em;
-  padding-bottom: 1em;
-  height: 100px;
-  width: 100px;
+.side-bar {
+  position: fixed;
 }
 
-.phones li {
-  clear: both;
-  height: 100px;
-  padding-top: 15px;
+.navbar .brand {
+  color: rgb(221, 155, 36);
+  opacity: 1.0;
 }
 
-/** Detail View **/
-img.phone {
-  float: left;
-  border: 1px solid black;
-  margin-right: 3em;
-  margin-bottom: 2em;
-  background-color: white;
-  padding: 2em;
-  height: 400px;
-  width: 400px;
+.content {
+  /* resetting position, so set z-index as well. */
+  position: absolute;
+  z-index:-1;
+  top: 0px;
+  bottom: 0px;
+  color: rgb(46, 45, 43);
+  padding-top: 45px;
+  max-height: 100%;
+  height: 100%;
+  background: none repeat scroll 0% 0% rgb(220, 220, 220);
 }
 
-ul.phone-thumbs {
-  margin: 0;
-  list-style: none;
+.absolute-frame {
+  color: rgb(46, 45, 43);
+  background: none repeat scroll 0% 0% rgb(220, 220, 220);
+}
+.dl-horizontal dd {
+  margin-left: 30px;
 }
 
-ul.phone-thumbs li {
-  border: 1px solid black;
-  display: inline-block;
-  margin: 1em;
-  background-color: white;
+.dl-horizontal dt {
+  width: 20px;
 }
 
-ul.phone-thumbs img {
-  height: 100px;
-  width: 100px;
-  padding: 1em;
+.cards {
+   padding: 0px 20px;
 }
 
-ul.phone-thumbs img:hover {
-  cursor: pointer;
+.cards h3 {
+   color: rgb(66, 65, 63);
 }
 
-
-ul.specs {
-  clear: both;
-  margin: 0;
-  padding: 0;
-  list-style: none;
+.cards li {
+  border-bottom: 1px solid rgb(40, 146, 167);
+  drop-shadow: 1px 1px 1px;
+  padding: 10px 0px;
 }
 
-ul.specs > li{
-  display: inline-block;
-  width: 200px;
-  vertical-align: top;
+/* HELPER CLASSES */
+
+.transluscent {
+  opacity: 0.9;
+  filter: alpha(opacity=40);
 }
 
-ul.specs > li > span{
-  font-weight: bold;
-  font-size: 1.2em;
-}
-
-ul.specs dt {
-  font-weight: bold;
-}
-
-h1 {
-  border-bottom: 1px solid gray;
+.headerfix {
+    padding-top: 45px; 
 }

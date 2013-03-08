@@ -1,27 +1,26 @@
-<div class="container-fluid">
-  <div class="row-fluid">
-    <div class="span2">
-      <!--Sidebar content-->
-
-      Search: <input ng-model="query">
-      Sort by:
-      <select ng-model="orderProp">
-        <option value="name">Alphabetical</option>
-        <option value="age">Newest</option>
-      </select>
-
-    </div>
-    <div class="span10">
-      <!--Body content-->
-
-      <ul class="phones">
-        <li ng-repeat="user in users | filter:query | orderBy:orderProp" class="thumbnail">
-          <a href="#/users/{{user.id}}">{{user.username}}</a>
-          <br />
-          <a href="#/users/{{user.id}}">{{user.email}}</a>
-        </li>
-      </ul>
-
+<div class="container">
+  <div class="span3 side-bar headerfix">
+    <h3>Confused People</h3>
+    <form class="search">
+      <input ng-model="query" placeholder="Search">
+    </form>
+  </div>
+  
+  
+  <div class="offset3 span9 content">
+      <div class="absolute-frame">
+        <ul class="unstyled cards">
+          <li ng-repeat="user in users | filter:query | orderBy:orderProp">
+            <h3><a href="#/users/{{user.id}}">{{user.username}}</a></h3>
+            <dl class="dl-horizontal">
+              <dt>e: </dt>
+              <dd>{{user.email}}</dd>
+              <dt>n: </dt>
+              <dd>{{user.firstName}} {{user.lastName}}</dd>
+            </dl>
+          </li>
+        </ul>
+        <div class="clearfix"></div>
     </div>
   </div>
 </div>

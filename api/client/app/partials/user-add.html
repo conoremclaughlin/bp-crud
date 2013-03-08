@@ -1,22 +1,28 @@
-<form name="userForm" ng-submit="submit()" class="form-horizontal">
-  <fieldset>
-    <legend>Register for Transactions!</legend>
-    <div class="control-group">
-      <input name="username" type="text" placeholder="username" ng-model="user.username" required>
-      <span class="error" ng-show="userForm.username.$error.required">Required!</span>
-    </div>
-    <div class="control-group">
-      <input name="email" type="email" placeholder="email" ng-model="user.email" required>
-      <span class="error" ng-show="userForm.email.$error.required">Required!</span>
-    </div>
-    <div class="control-group">
-      <input name="firstName" type="text" placeholder="first name" ng-model="user.firstName">
-    </div>
-    <div class="control-group">
-      <input name="lastName" type="text" placeholder="last name" ng-model="user.lastName">
-    </div>
-    <div class="control-group">
-      <input type="submit" class="btn">
-    </div>
-  </fieldset>
-</form>
+<div class="container">
+  <div class="row headerfix">
+    <div class="span12">
+      <form name="userForm" class="form-horizontal">
+        <fieldset>
+          <h3>Register Who I Am</h3>
+          <div class="control-group">
+            <input name="username" type="text" placeholder="username" ng-model="user.model.username" required>
+            <span class="error" ng-show="userForm.username.$error.required">Required!</span>
+          </div>
+          <div class="control-group">
+            <input name="email" type="email" placeholder="email" ng-model="user.model.email" required>
+            <span class="error" ng-show="userForm.email.$error.required">Required!</span>
+          </div>
+          <div class="control-group">
+            <input name="firstName" type="text" placeholder="first name" ng-model="user.model.firstName">
+          </div>
+          <div class="control-group">
+            <input name="lastName" type="text" placeholder="last name" ng-model="user.model.lastName">
+          </div>
+          <div class="control-group">
+            <input type="submit" ng-click="user.create()" class="btn">
+          </div>
+        </fieldset>
+      </form>
+    </div>    
+  </div>
+</div>
