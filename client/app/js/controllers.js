@@ -27,8 +27,6 @@ angular.module('app.controllers', [])
     }])
 
     .controller('BillList', ['$scope', 'UserResource', 'BillResource', function($scope, User, Bill) {
-        // User list is the main page, so lets access cache of all available users.
-        // TODO: create a getUsers method or wrap query to use a cache
         User.query(function(users) {
             $scope.users = users.data;
         }, function(error) {
@@ -44,7 +42,6 @@ angular.module('app.controllers', [])
         $scope.bill = new Bill();
         $scope.showNewBill = false;
         $scope.toggleBillForm = function toggleBillForm(event) {
-            console.log('toggling the bill form');
             $scope.showNewBill = !$scope.showNewBill;
             $('.btn-add').toggleClass('disabled');
         };

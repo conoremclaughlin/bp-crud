@@ -83,11 +83,11 @@ angular.module('app.services', ['ngResource'])
         };
 
         Model.prototype.create = function create(options) {
+            options = options || {};
             var that = this
               , model = options.model || this.model;
 
             var success = options.success || function() {
-                console.log('successful post, navigating to: ', that.url);
                 $location.path(that.url);
             };
             var error = options.error || function() {
@@ -123,10 +123,8 @@ angular.module('app.services', ['ngResource'])
         Model.query = function fetch(success, error) {
             var that = this;
             if (this.cache.hasData) {
-                console.log('accessing cache for: ', this);
                 return success(this.cache.get());
             } else {
-                console.log('fetching from resource for: ', this);
                 return this.Resource.query(function(results) {
                     that.cache = results.data;
                     success(results);
