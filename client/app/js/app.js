@@ -5,6 +5,7 @@ angular.module('bp-crud', ['app.filters', 'app.services', 'app.filters', 'app.co
 
     .config(['$routeProvider', function($routeProvider) {
         $routeProvider
+            .when('/bills', { templateUrl: 'partials/bill-list.html', controller: 'BillList' })
             .when('/users', { templateUrl: 'partials/user-list.html', controller: 'UserList' })
             .when('/users/new', { templateUrl: 'partials/user-add.html', controller: 'UserNew' })
             .when('/users/:id', { templateUrl: 'partials/user-details.html', controller: 'UserDetails' })

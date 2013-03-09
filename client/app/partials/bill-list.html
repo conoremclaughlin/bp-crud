@@ -1,0 +1,60 @@
+<div class="container">
+  <div class="span3 side-bar headerfix">
+
+    <div class="search">
+      <button type="button" ng-click="toggleBillForm()" class="btn btn-success btn-add" data-dismiss="modal" aria-hidden="true">+</button>
+      <h3>bills</h3>
+      <form class="form-search">
+        <input class="search-query" type="text" ng-model="query" placeholder="Search">
+      </form>
+    </div>
+
+    <div ng-show="showNewBill">
+      <div class="modal-header">
+        <button type="button" ng-click="toggleBillForm()" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h3>new</h3>
+      </div>
+      <div class="modal-body">
+        <form name="billForm">
+          <select name="payer" ng-options="user.username for user in users | orderBy:orderProp" ng-model="bill.model.payer">
+            <option value="">-- someone --</option>
+          </select>
+          <p class="text-center"><b>lent</b></p>
+          <select name="ower" ng-options="user.username for user in users | orderBy:orderProp" ng-model="bill.model.ower">
+            <option value="">-- someone --</option>
+          </select>
+          <div class="input-prepend">
+            <span class="add-on">$</span>
+            <input name="amount" placeholder="0" id="appendedPrependedInput" type="text" ng-model="bill.model.amount">
+          </div>
+          <span class="error" ng-show="billForm.amount.$error.required">Required!</span>
+          <textarea rows="3" placeholder="message" ng-model="bill.model.message"></textarea>
+          <input type="submit" ng-click="bill.process(users)" class="btn" value="Submit">
+        </form>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="offset3 span9 content">
+    <div class="absolute-frame receipt">
+      <table class="table">
+        <thead>
+          <tr>
+            <th><b>creditor</b></th>
+            <th><b>recipient</b></th>
+            <th>amount</th>
+          </tr>
+        </thead>
+        <tbody class="table-hover">
+          <tr ng-repeat="bill in bills | filter:query | orderBy:orderProp">
+            <td>{{bill.payer.username}}</td>
+            <td>{{bill.ower.username}}</td>
+            <td>{{bill.amount}}</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</div>

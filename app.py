@@ -4,17 +4,17 @@ import datetime
 from flask import Flask, url_for, redirect
 from flask.ext.mongoengine import MongoEngine
 from flask.ext.mongorest import MongoRest
-from flask.ext.mongorest.views import ResourceView
-from flask.ext.mongorest.resources import Resource
-from flask.ext.mongorest import operators as ops
 from flask.ext.mongorest.methods import *
+from flask.ext.mongorest.views import ResourceView
 from flask.ext.mongorest.authentication import AuthenticationBase
+from resources import UserResource, BillResource, AbbreviatedBillResource
 
 app = Flask(__name__, static_url_path='', static_folder='client/app')
 
 # mongodb://<user>:<password>@dharma.mongohq.com:10004/bp-crud
 
 app.config.update(
+    TESTING = True,
     MONGODB_SETTINGS = {
         'username': 'her-api-2',
         'password': '0AZIOU0',
@@ -28,53 +28,23 @@ app.config.update(
 db = MongoEngine(app)
 api = MongoRest(app)
 
-'''
-User
-    
-    objectId
-    username
-    email
-    firstName
-    lastName
-'''
-
-class User(db.Document):
-    email = db.EmailField(unique=True, required=True)
-    firstName = db.StringField(max_length=50)
-    lastName = db.StringField(max_length=50)
-    username = db.StringField(max_length=50)
-
-class UserResource(Resource):
-    document = User
-
 @api.register(name='users', url='/api/users/')
 class UserView(ResourceView):
     resource = UserResource
     methods = [Create, Update, Fetch, List, Delete]
 
-'''
-Transaction
-    
-    objectId
-    amount
-    payer
-    ower
-    message
-'''
-
-class Transaction(db.Document):
-    amount = db.FloatField(required=True)
-    payer = db.ReferenceField(User, required=True)
-    ower = db.ReferenceField(User, required=True)
-    message = db.StringField(max_length=255)
-
-class TransactionResource(Resource):
-    document = Transaction
-
-@api.register(name='transactions', url='/api/transactions/')
-class TransactionView(ResourceView):
-    resource = TransactionResource
+@api.register(name='bills', url='/api/bills/')
+class BillView(ResourceView):
+    resource = BillResource
     methods = [Create, Update, Fetch, List, Delete]
+
+@api.register(name='abbreviatedBills', url='/api/list/bills')
+class AbbreviatedBillView(ResourceView):
+    resource = AbbreviatedBillResource
+    methods = [Fetch, List]
+    
+    def __init__(self):
+        self.resource.select_related = True
 
 ''' Routes '''
 

@@ -1,16 +1,17 @@
 <div class="container">
   <div class="row headerfix">
     <div class="span12">
+
       <form name="userForm" class="form-horizontal">
-        <h3>{{user.model.username}}'s Profile</h3>
+        <h3>{{user.model.username}}'s profile</h3>
         <fieldset>
           <div class="control-group">
             <input name="username" type="text" value="" placeholder="username" ng-model="user.model.username" required>
-            <span class="error" ng-show="userForm.username.$error.required">Required!</span>
+            <span class="error" ng-show="userForm.username.$error.required">required!</span>
           </div>
           <div class="control-group">
             <input name="email" type="email" value="" placeholder="email" ng-model="user.model.email" required>
-            <span class="error" ng-show="userForm.email.$error.required">Required!</span>
+            <span class="error" ng-show="userForm.email.$error.required">required!</span>
           </div>
           <div class="control-group">
             <input name="firstName" type="text" value="first name" placeholder="first name" ng-model="user.model.firstName">

@@ -3,32 +3,26 @@
 /* color swatch
  *
  * accents:
- *  greenish-blue - rgb(40, 146, 167);
- *  light orange - rgb(221, 155, 36);
+ *  greenish-blue - rgb(39, 177, 133);
+ *  light orange - #ff6256;
  * primaries:
  *  dark gray - rgb(66, 65, 63);
  *   darken up the text: dark gray - rgb(46, 45, 43);
- *   lightened text: almost white - rgb(230, 230, 230);
- *  light gray - rgb(220, 220, 220);
+ *  almost white - #f5f3f1;
  */
  
 body {
-  background: none repeat scroll 0% 0% rgb(66, 65, 63);
-  color: rgb(230, 230, 230);
+  background: none repeat scroll 0% 0% rgb(111, 110, 109);
+  color: #333;
 }
 
 a,
 a:hover {
-  color: rgb(40, 146, 167);
+  color: rgb(39, 177, 133);
 }
 
-.side-bar {
-  position: fixed;
-}
-
-.navbar .brand {
-  color: rgb(221, 155, 36);
-  opacity: 1.0;
+form {
+  margin: 0 0 20px;
 }
 
 .content {
@@ -41,13 +35,44 @@ a:hover {
   padding-top: 45px;
   max-height: 100%;
   height: 100%;
-  background: none repeat scroll 0% 0% rgb(220, 220, 220);
+  background: none repeat scroll 0% 0% #f5f3f1;
 }
 
 .absolute-frame {
   color: rgb(46, 45, 43);
-  background: none repeat scroll 0% 0% rgb(220, 220, 220);
+  background: none repeat scroll 0% 0% #f5f3f1;
 }
+
+.btn-add {
+  float: right;
+  padding-top: 3px;
+  font-size: 20px;
+  font-weight: bold;
+  line-height: 25px;
+  color: #000000;
+  text-shadow: 0 1px 0 #cccccc;
+  opacity: 0.9;
+  filter: alpha(opacity=90);
+}
+
+.btn-add:hover,
+.btn-add:focus {
+  text-decoration: none;
+  cursor: pointer;
+  opacity: 1.0;
+  filter: alpha(opacity=100);
+}
+
+.btn-add.disabled:hover,
+.btn-add.disabled:focus {
+  cursor: auto;
+}
+
+.navbar .brand {
+  color: #ff6256;
+  opacity: 1.0;
+}
+
 .dl-horizontal dd {
   margin-left: 30px;
 }
@@ -56,17 +81,72 @@ a:hover {
   width: 20px;
 }
 
+.table th {
+  color: rgb(39, 177, 133);
+}
+
+.receipt,
 .cards {
    padding: 0px 20px;
 }
 
 .cards h3 {
-   color: rgb(66, 65, 63);
+   color: rgb(40, 146, 167);
 }
 
 .cards li {
-  border-bottom: 1px solid rgb(40, 146, 167);
+  border-bottom: 1px solid #cccccc;/*rgb(26, 126, 118)rgb(40, 146, 167)*/
   drop-shadow: 1px 1px 1px;
+  padding: 10px 0px;
+}
+
+.side-bar {
+  margin-left: 0px;
+  position: fixed;
+}
+
+.side-bar form {
+  overflow: hidden;
+}
+
+/* 
+ * some width hackery for a little more responsive form width.
+ * accounting for 3% padding on both sides, need to adjust the width to
+ * 94%.
+ */
+.side-bar input[type="text"],  
+.side-bar input[type="number"], 
+.side-bar input[type="email"], 
+.side-bar input[type="url"], 
+.side-bar input[type="search"],
+.side-bar textarea {
+  padding: 4px 3%;
+  width: 94%;
+}
+
+/* textareas need more room to breath because of added corner adjuster thing */
+.side-bar textarea {
+  width: 93%;
+}
+
+.side-bar .input-prepend,
+.side-bar select {
+  width: 100%;
+}
+
+.side-bar .input-prepend input[type="number"],
+.side-bar .input-prepend input[type="text"] {
+  width: 83%;
+}
+
+.side-bar .modal-header,
+.side-bar .modal-body {
+  padding: 0px;
+}
+
+.side-bar .modal-header {
+  border-top: 1px solid #333;
+  border-bottom: none;
   padding: 10px 0px;
 }
 

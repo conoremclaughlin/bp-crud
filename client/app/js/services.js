@@ -12,8 +12,9 @@ angular.module('app.services', ['ngResource'])
             this.initialize.apply(this, arguments);
         }
 
-        Model.extendResource = function(url, Class) {
-            var idUrl = urlRoot + '/api' + url + '/:id/';
+        Model.extendResource = function(url, resourceUrl, Class) {
+            // resourceUrl is optional - bulk queries may need a different api point
+            resourceUrl = resourceUrl ? urlRoot + resourceUrl : urlRoot + '/api' + url + '/:id/';
             Class.prototype = Object.create(Model.prototype);
             Class.prototype.url = url;
             Class.prototype.apiUrl = function(id) {
@@ -23,10 +24,27 @@ angular.module('app.services', ['ngResource'])
             };
 
             // array fix for mongodb records returned form the API
-            Class.prototype.Resource = $resource(idUrl, {}, {
+            Class.prototype.Resource = $resource(resourceUrl, {}, {
                 query: { method: 'GET', isArray: false }
             });
 
+            Class.prototype.cache = {
+                hasData: false,
+                get: function() {
+                    return this.hasData ? this.data : this.hasData;
+                },
+                set: function(data) {
+                    this.data = data;
+                    this.hasData = true;
+                }
+            };
+
+            for (var prop in Model) {
+                if (prop !== 'prototype') Class[prop] = Model[prop];
+            }
+
+            /* expose these as static properties */
+            Class.cache = Class.prototype.cache;
             Class.Resource = Class.prototype.Resource;
 
             return Class;
@@ -64,18 +82,26 @@ angular.module('app.services', ['ngResource'])
             });
         };
 
-        Model.prototype.create = function create(model) {
-            var that = this;
-            model = model || this.model;
+        Model.prototype.create = function create(options) {
+            var that = this
+              , model = options.model || this.model;
+
+            var success = options.success || function() {
+                console.log('successful post, navigating to: ', that.url);
+                $location.path(that.url);
+            };
+            var error = options.error || function() {
+                alert('We cannot reach the API at this time.  Our apologies.  Please try again later.');
+            };
+
+            // let mongo generate the objectId
+            if (model.id) delete model.id;
 
             // TODO: check if API allows calling this.Resource directly
+            // TODO: change to this.apiUrl()
             $http.post(urlRoot + '/api' + this.url + '/', model)
-                .success(function() {
-                    $location.path(that.url);
-                })
-                .error(function() {
-                    alert('We cannot reach the API at this time.  Our apologies.  Please try again later.');
-                });
+                .success(success)
+                .error(error);
         };
 
         Model.prototype.update = function update(id) {
@@ -91,12 +117,29 @@ angular.module('app.services', ['ngResource'])
                 });
         };
 
+        /**
+         * static
+         */
+        Model.query = function fetch(success, error) {
+            var that = this;
+            if (this.cache.hasData) {
+                console.log('accessing cache for: ', this);
+                return success(this.cache.get());
+            } else {
+                console.log('fetching from resource for: ', this);
+                return this.Resource.query(function(results) {
+                    that.cache = results.data;
+                    success(results);
+                }, error);
+            }
+        };
+
         return Model;
     }])
 
     .factory('UserResource', ['ModelResource', function(Model) {
 
-        var User = Model.extendResource('/users', function User() {
+        var User = Model.extendResource('/users', null, function User() {
             Model.apply(this, arguments);
         });
 
@@ -108,5 +151,35 @@ angular.module('app.services', ['ngResource'])
         };
 
         return User;
+    }])
+
+    .factory('BillResource', ['ModelResource', function(Model) {
+        var Bill = Model.extendResource('/bills', '/api/list/bills/', function Bill() {
+            Model.apply(this, arguments);
+        });
+
+        Bill.prototype.schema = {
+            id: '',
+            amount: 0,
+            payer: '',
+            ower: '',
+            message: ''
+        };
+
+        Bill.prototype.process = function process(users) {
+            // bug in angular select directive
+            // need to map users to ids manually
+            this.model.ower = this.model.ower.id;
+            this.model.payer = this.model.payer.id;
+            this.model.amount = parseFloat(this.model.amount);
+            this.create({
+                success: function() {
+                    // TODO: clear form and data-bind transactions without reloading the page.
+                    $location.path('/');
+                }
+            });
+        };
+
+        return Bill;
     }])
 ;
